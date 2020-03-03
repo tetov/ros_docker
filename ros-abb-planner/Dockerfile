@@ -5,7 +5,7 @@
 #  docker pull gramaziokohler/ros-abb-planner
 
 FROM gramaziokohler/ros-base:19.11
-LABEL maintainer "Gonzalo Casas <casas@arch.ethz.ch>"
+LABEL maintainer "Anton T Johansson <anton@tetov.se>"
 
 SHELL ["/bin/bash","-c"]
 
@@ -24,11 +24,13 @@ RUN mkdir -p $CATKIN_WS/src
 RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
     # Update apt-get because its cache is always cleared after installs to keep image size down
     && apt-get update \
+    && apt-get install vim-tiny  -y \
     # ABB packages
     && git clone -b ${ROS_DISTRO}-devel https://github.com/ros-industrial/abb.git \
     && git clone -b ${ROS_DISTRO}-devel https://github.com/ros-industrial/abb_experimental.git \
     && git clone https://github.com/gramaziokohler/abb_irb4600_40_255.git \
-    && git clone https://github.com/gramaziokohler/abb_irb4600_40_255_moveit_config.git \
+    && git clone https://github.com/gramaziokohler/abb_irb4600_40_255_moveit_config.git
+
     # Install dependencies
     && cd $CATKIN_WS \
     && rosdep install -y --from-paths . --ignore-src --rosdistro ${ROS_DISTRO} \
