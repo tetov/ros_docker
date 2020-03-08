@@ -34,5 +34,7 @@ RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
     # Install dependencies
     && cd $CATKIN_WS \
     && rosdep install -y --from-paths . --ignore-src --rosdistro ${ROS_DISTRO} \
-    # Build catkin workspace
-    && catkin_make
+    # Build catkin workspacea
+    && catkin_make \
+    && echo "set +e" >> /ros_entrypoint.sh \
+    && echo "source /ros_entrypoint.sh" >> /root/.bashrc
