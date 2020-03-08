@@ -24,7 +24,7 @@ RUN mkdir -p $CATKIN_WS/src
 RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
     # Update apt-get because its cache is always cleared after installs to keep image size down
     && apt-get update \
-    && apt-get install vim-tiny  -y \
+
     # ABB packages
     && git clone -b ${ROS_DISTRO}-devel https://github.com/ros-industrial/abb.git \
     && git clone -b ${ROS_DISTRO}-devel https://github.com/ros-industrial/abb_experimental.git \
@@ -35,6 +35,9 @@ RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
     && cd $CATKIN_WS \
     && rosdep install -y --from-paths . --ignore-src --rosdistro ${ROS_DISTRO} \
     # Build catkin workspacea
-    && catkin_make \
+    && catkin_make
+    
+# Some quality of life improvements    
+RUN apt-get install vim-tiny  -y \
     && echo "set +e" >> /ros_entrypoint.sh \
     && echo "source /ros_entrypoint.sh" >> /root/.bashrc
